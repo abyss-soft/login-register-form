@@ -41,6 +41,27 @@ if (
 
         include "connect.php";   //We connect connection with base
 
+        //Check if there is already such a user (to exclude re-registration)
+        $query = "SELECT email FROM users WHERE email=?";
+        $statement = $mysqli->prepare($query);
+
+        //bind parameters for markers
+        $statement->bind_param('s', $usermail);
+
+        //execute query
+        $statement->execute();
+
+        //bind result variables
+        $statement->bind_result($emailbase);
+        $statement->fetch();
+
+        //if email is already in the database, then deny registration
+        if (strcmp($usermail, $emailbase) == 0) {
+            echo "falsemail";
+            exit(1);
+        }
+
+        //Write user data to database
         $firstname = '"' . $mysqli->real_escape_string($firstname) . '"';
         $lastname = '"' . $mysqli->real_escape_string($lastname) . '"';
         $usermail = '"' . $mysqli->real_escape_string($usermail) . '"';

@@ -78,6 +78,13 @@ $(document).ready(function () {
                     else {
                         $("#send").prop("disabled", false);
                     }
+                    if (data == "falsemail") {
+                        $("#email").addClass("error");
+                    }
+                    else {
+                        $("#email").removeClass("error");
+                    }
+
                 }
             });
         }
